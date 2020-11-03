@@ -1,36 +1,45 @@
 {
-  "version": "0.4.3",
+  "version": "0.5.6",
   "manifest_version": 2,
-  "name": "Google™ Translator",
   "short_name": "igtranslator",
-  "description": "Google™ Translator is a handy multi-language translator built on top of Google Translate.",
+  "name": "Google™ Translator (Fork for Chrome)",
+  "web_accessible_resources": ["data/*"],
+  "background": {"page": "lib/chrome/background.html"},
+  "options_ui": {"chrome_style": true, "page": "data/options/options.html"},
+  "description": "A handy multi-language translator built on top of Google translate.",
   "permissions": [
     "tabs",
     "storage",
     "<all_urls>",
+    "webRequest",
     "contextMenus",
-    "notifications"
+    "notifications",
+    "webRequestBlocking"
   ],
   "browser_action": {
-    "default_icon": "data/icon16.png",
+    "default_title": "Google™ Translator",
     "default_popup": "data/popup/popup.html",
-    "default_title": "Google™ Translator"
+    "default_icon": {
+      "16": "data/icon16.png",
+      "32": "data/icon32.png",
+      "48": "data/icon48.png",
+      "64": "data/icon64.png"
+    }
   },
-  "background": {
-    "page": "lib/chrome/background.html"
-  },
-  "web_accessible_resources": ["data/*"],
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "css": ["data/content_script/inject.css"],
-    "js": [
-      "data/content_script/chrome/chrome.js",
-      "data/content_script/inject.js"
-    ],
-    "run_at": "document_start",
-    "all_frames": false
-  }],
-  "options_page": "data/options/options.html",
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "matches": ["<all_urls>"],
+      "run_at": "document_start",
+      "js": ["data/content_script/inject.js"],
+      "css": ["data/content_script/inject.css"]
+    }, {
+      "all_frames": false,
+      "run_at": "document_start",
+      "matches": ["*://translate.google.com/*"],
+      "js": ["data/content_script/translate.js"]
+    }
+  ],
   "icons": {
     "16": "data/icon16.png",
     "32": "data/icon32.png",

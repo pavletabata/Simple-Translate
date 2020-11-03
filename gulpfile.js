@@ -42,12 +42,19 @@ gulp.task('chrome-build', function () {
   })))
   .pipe(gulp.dest('builds/unpacked/chrome')).pipe(zip('chrome.zip')).pipe(gulp.dest('builds/packed'));
 });
+
+
 gulp.task('chrome-install', function () {
-  gulp.src('')
+  let chosen_chrome=process.argv.includes("--test") ? "C:\\Users\\user\\AppData\\Local\\Google\\Chrome SxS\\Application\\chrome.exe" : "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
+  gulp.src('./')
   .pipe(wait(1000))
   .pipe(shell([
-    '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --load-and-launch-app="<%= file.path %>\\builds\\unpacked\\chrome"'
+    '"'+chosen_chrome+'" --load-and-launch-app="<%= file.path %>\\builds\\unpacked\\chrome"'
   ], {cwd: './builds/unpacked/chrome'}));
+  return new Promise(function(resolve, reject) {
+    console.log("Started");
+    resolve();
+  });
 });
 
 /* ------------------------------ */
