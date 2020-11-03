@@ -20,7 +20,7 @@ gulp.task('clean', function () {
 /* -------- Chrome Build -------- */
 /* ------------------------------ */
 
-gulp.task('chrome-build', function () {
+gulp.task('chrome-build', async function () {
   gulp.src(['src/**/*']).pipe(gulpFilter(function (f) {
     if (f.relative.indexOf('firefox') !== -1) return false;
     if (f.relative.indexOf('safari') !== -1) return false;
